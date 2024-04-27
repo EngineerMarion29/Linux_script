@@ -13,6 +13,6 @@ IdleTime2=$(cat /root/cpu2 | awk -F ' ' '{print $4}')
 TotalTimeDiff=$(( ${TotalTime2} - ${TotalTime1} ))
 IdleTimeDiff=$(( ${IdleTime2} - ${IdleTime1} ))
 
-CPU_Usage=$(awk -v TotalDiff="${TotalTimeDiff}" -v IdleDiff="${IdleTimeDiff}" 'BEGIN {printf “%.4f\n", (1 – (IdleDiff / TotalDiff)) * 100})
+CPU_Usage=$(awk -v TotalDiff="${TotalTimeDiff}" -v IdleDiff="${IdleTimeDiff}" 'BEGIN {printf "%.4f\n", (1 - (IdleDiff / TotalDiff)) * 100})
 
 echo ${CPU_Usage}%
