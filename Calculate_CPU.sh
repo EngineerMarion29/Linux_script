@@ -16,3 +16,16 @@ IdleTimeDiff=$(( ${IdleTime2} - ${IdleTime1} ))
 CPU_Usage=$(awk -v TotalDiff="${TotalTimeDiff}" -v IdleDiff="${IdleTimeDiff}" 'BEGIN {printf "%.4f\n", (1 - (IdleDiff / TotalDiff)) * 100}')
 
 echo ${CPU_Usage}%
+
+
+
+if [[ $(echo "$CPU_Usage}" "75.00" | awk '{print ($1 > $2)}') == 1 ]]
+then
+	echo "Subject: HMT Email Alert | CPU Threshold Breach" >> /root/HMT_Email_Alert_$(date "+%Y-%m-%d%H:%M").txt
+	echo " " >> /root/HMT_Email_Alert_$(date "+%Y-%m-%d%H:%M").txt 
+	echo " " >> /root/HMT_Email_Alert_$(date "+%Y-%m-%d%H:%M").txt
+	echo "CPU Utilization is now ${CPU_Usage}%" >> /root/HMT_Email_Alert_$(date "+%Y-%m-%d%H:%M").txt
+	echo "Time of Occurrence: $(date "+%Y-%m-%d%H:%M")" >> /root/HMT_Email_Alert_$(date "+%Y-%m-%d%H:%M").txt
+	/usr/bin/sendmail.ssmtp deguzmancaptain@gmail.com < /root/HMT_Email_Alert_$(date "+%Y-%m-%d%H:%M").txt
+fi
+
